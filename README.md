@@ -1,4 +1,4 @@
-# notion
+# autonotion
 
 1. Preparing to connect the Notion database with Python code
 ```database_id = "input your database id"
@@ -46,3 +46,12 @@ Automating the process of adding or retrieving data in a Notion database
 
 #reference   
 url:https://github.com/LHyunn/NotionDatabaseAPI
+
+
+# Streamlit
+
+You can automatically organize lecture PDF materials.
+
+![image](https://github.com/user-attachments/assets/a2d00771-9c3b-4bb4-b72d-63e540c62576)
+![image](https://github.com/user-attachments/assets/c92d1357-03ea-4612-99eb-d04bba359736)
+
