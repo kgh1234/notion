@@ -1,0 +1,39 @@
+import streamlit as st
+import fitz  # PyMuPDF 라이브러리
+
+st.title("PDF 파일 업로드 및 텍스트와 이미지 표시")
+
+# PDF 파일 업로드
+uploaded_file = st.file_uploader("PDF 파일을 업로드하세요", type=["pdf"])
+
+if uploaded_file is not None:
+    # PyMuPDF를 사용해 PDF 열기
+    pdf_document = fitz.open(stream=uploaded_file.read(), filetype="pdf")
+
+    st.write(f"PDF 페이지 수: {pdf_document.page_count}")
+
+    # 페이지별 텍스트와 이미지 추출
+    for page_number in range(len(pdf_document)):
+        page = pdf_document[page_number]
+
+        # 텍스트 추출
+        st.subheader(f"페이지 {page_number + 1}")
+        text = page.get_text()
+        if text.strip():
+            st.text_area(f"페이지 {page_number + 1}의 텍스트:", text, height=300)
+        else:
+            st.write("텍스트가 없습니다.")
+
+        # 이미지 추출
+        images = page.get_images(full=True)
+        if images:
+            st.write(f"페이지 {page_number + 1}의 이미지:")
+            for img_index, img in enumerate(images):
+                xref = img[0]
+                base_image = pdf_document.extract_image(xref)
+                image_bytes = base_image["image"]  # 바이너리 이미지 데이터
+                st.image(image_bytes, caption=f"페이지 {page_number + 1}, 이미지 {img_index + 1}", use_column_width=True)
+        else:
+            st.write("이미지가 없습니다.")
+
+    pdf_document.close()
